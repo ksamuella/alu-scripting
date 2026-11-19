@@ -5,6 +5,9 @@ from urllib.error import HTTPError
 from urllib.request import HTTPRedirectHandler, Request, build_opener
 
 
+HEADERS = {"User-Agent": "linux:alu.scripting:v1.0 (by /u/ksamuella)"}
+
+
 class NoRedirect(HTTPRedirectHandler):
     """Do not follow redirects."""
     def redirect_request(self, req, fp, code, msg, headers, newurl):
@@ -17,7 +20,7 @@ def top_ten(subreddit):
         print(None)
         return
     url = "https://www.reddit.com/r/{}/hot.json?limit=10".format(subreddit)
-    req = Request(url, headers={"User-Agent": "alu-api:v1.0"})
+    req = Request(url, headers=HEADERS)
     try:
         with build_opener(NoRedirect).open(req, timeout=10) as res:
             data = json.loads(res.read().decode("utf-8"))
